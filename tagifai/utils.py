@@ -22,8 +22,7 @@ def load_json_from_url(url: str) -> Dict:
     Returns:
         A dictionary with the loaded JSON data.
     """
-    data = json.loads(urlopen(url).read())
-    return data
+    return json.loads(urlopen(url).read())
 
 
 def load_dict(filepath: str) -> Dict:
@@ -122,13 +121,16 @@ def dict_diff(d_a: Dict, d_b: Dict, d_a_name="a", d_b_name="b") -> Dict:
     if d_a.keys() != d_b.keys():
         raise Exception("Cannot compare these dictionaries because they have different keys.")
 
-    # Compare
-    diff = {}
-    for key in d_a:
-        if isinstance(d_a[key], numbers.Number) and isinstance(d_b[key], numbers.Number):
-            diff[key] = {d_a_name: d_a[key], d_b_name: d_b[key], "diff": d_a[key] - d_b[key]}
-
-    return diff
+    return {
+        key: {
+            d_a_name: d_a[key],
+            d_b_name: d_b[key],
+            "diff": d_a[key] - d_b[key],
+        }
+        for key in d_a
+        if isinstance(d_a[key], numbers.Number)
+        and isinstance(d_b[key], numbers.Number)
+    }
 
 
 def delete_experiment(experiment_name: str):

@@ -70,8 +70,7 @@ def get_metrics(
         # Use snorkel.analysis.Scorer for multiclass tasks
         # Naive implementation for our multilabel task
         # based on snorkel.analysis.Scorer
-        metrics["slices"] = {}
-        metrics["slices"]["class"] = {}
+        metrics["slices"] = {"class": {}}
         for slice_name in slices.dtype.names:
             mask = slices[slice_name].astype(bool)
             if sum(mask):  # pragma: no cover, test set may not have enough samples for slicing

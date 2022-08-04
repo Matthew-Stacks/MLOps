@@ -29,7 +29,12 @@ project_details_view = FeatureView(
     name="project_details",
     entities=["id"],
     ttl=Duration(
-        seconds=(datetime.today() - datetime.strptime(START_TIME, "%Y-%m-%d")).days * 24 * 60 * 60
+        seconds=(
+            datetime.now() - datetime.strptime(START_TIME, "%Y-%m-%d")
+        ).days
+        * 24
+        * 60
+        * 60
     ),
     features=[
         Feature(name="text", dtype=ValueType.STRING),

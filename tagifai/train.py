@@ -110,8 +110,7 @@ class Trainer:
 
         # Iterate over batches
         with torch.inference_mode():
-            for i, batch in enumerate(dataloader):
-
+            for batch in dataloader:
                 # Forward pass w/ inputs
                 batch = [item.to(self.device) for item in batch]  # Set device
                 inputs, y_true = batch[:-1], batch[-1]

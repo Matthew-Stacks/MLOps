@@ -157,12 +157,13 @@ def initialize_model(
     filter_sizes = list(range(1, int(params.max_filter_size) + 1))
     model = CNN(
         embedding_dim=int(params.embedding_dim),
-        vocab_size=int(vocab_size),
+        vocab_size=vocab_size,
         num_filters=int(params.num_filters),
         filter_sizes=filter_sizes,
         hidden_dim=int(params.hidden_dim),
         dropout_p=float(params.dropout_p),
-        num_classes=int(num_classes),
+        num_classes=num_classes,
     )
+
     model = model.to(device)
     return model

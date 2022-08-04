@@ -18,8 +18,7 @@ from tagifai import data, eval, main, utils
 
 @st.cache
 def get_performance(model_dir):
-    performance = utils.load_dict(filepath=Path(model_dir, "performance.json"))
-    return performance
+    return utils.load_dict(filepath=Path(model_dir, "performance.json"))
 
 
 @st.cache
@@ -35,8 +34,7 @@ def get_tags(author=config.AUTHOR, repo=config.REPO):
     # Get metadata by tag
     tags = {}
     for tag in tags_list:
-        tags[tag] = {}
-        tags[tag]["params"] = cli.params(tag=tag, verbose=False)
+        tags[tag] = {"params": cli.params(tag=tag, verbose=False)}
         tags[tag]["performance"] = pd.json_normalize(
             cli.performance(tag=tag, verbose=False), sep="."
         ).to_dict(orient="records")[0]
@@ -52,8 +50,7 @@ def get_diff(author=config.AUTHOR, repo=config.REPO, tag_a="workspace", tag_b=""
 
 @st.cache
 def get_artifacts(run_id):
-    artifacts = main.load_artifacts(run_id=run_id)
-    return artifacts
+    return main.load_artifacts(run_id=run_id)
 
 
 @st.cache
@@ -322,7 +319,7 @@ elif selected_page == "Inspection":
             tp.append(i)
         elif not true and pred:
             fp.append(i)
-        elif true and not pred:
+        elif true:
             fn.append(i)
 
     # Samples

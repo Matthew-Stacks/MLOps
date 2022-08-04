@@ -19,8 +19,7 @@ def tags():
     # Load tags
     tags_url = "https://raw.githubusercontent.com/GokuMohandas/MadeWithML/main/datasets/tags.json"
     tags_dict = utils.load_json_from_url(url=tags_url)
-    tags = [tag["tag"] for tag in tags_dict]
-    return tags
+    return [tag["tag"] for tag in tags_dict]
 
 
 @pytest.fixture(scope="module")

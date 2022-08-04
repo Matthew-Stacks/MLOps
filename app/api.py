@@ -60,12 +60,11 @@ def construct_response(f):
 @construct_response
 def _index(request: Request):
     """Health check."""
-    response = {
+    return {
         "message": HTTPStatus.OK.phrase,
         "status-code": HTTPStatus.OK,
         "data": {},
     }
-    return response
 
 
 @app.post("/predict", tags=["Prediction"])
@@ -75,33 +74,31 @@ def _predict(request: Request, payload: PredictPayload) -> Dict:
     # Predict
     texts = [item.text for item in payload.texts]
     predictions = predict.predict(texts=texts, artifacts=artifacts)
-    response = {
+    return {
         "message": HTTPStatus.OK.phrase,
         "status-code": HTTPStatus.OK,
         "data": {"predictions": predictions},
     }
-    return response
 
 
 @app.get("/params", tags=["Parameters"])
 @construct_response
 def _params(request: Request) -> Dict:
     """Get parameter values used for a run."""
-    response = {
+    return {
         "message": HTTPStatus.OK.phrase,
         "status-code": HTTPStatus.OK,
         "data": {
             "params": vars(artifacts["params"]),
         },
     }
-    return response
 
 
 @app.get("/params/{param}", tags=["Parameters"])
 @construct_response
 def _param(request: Request, param: str) -> Dict:
     """Get a specific parameter's value used for a run."""
-    response = {
+    return {
         "message": HTTPStatus.OK.phrase,
         "status-code": HTTPStatus.OK,
         "data": {
@@ -110,7 +107,6 @@ def _param(request: Request, param: str) -> Dict:
             }
         },
     }
-    return response
 
 
 @app.get("/performance", tags=["Performance"])
@@ -124,9 +120,8 @@ def _performance(request: Request, filter: Optional[str] = None) -> Dict:
         data = {"performance": {filter: performance}}
     else:
         data = {"performance": performance}
-    response = {
+    return {
         "message": HTTPStatus.OK.phrase,
         "status-code": HTTPStatus.OK,
         "data": data,
     }
-    return response
