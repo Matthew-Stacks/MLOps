@@ -239,10 +239,10 @@ def diff(
     repo: str = config.REPO,
     tag_a: str = "workspace",
     tag_b: str = "",
-):  # pragma: no cover, can't be certain what diffs will exist
+):    # pragma: no cover, can't be certain what diffs will exist
     """Difference between two release TAGs."""
     # Tag b
-    if tag_b == "":
+    if not tag_b:
         tags_url = f"https://api.github.com/repos/{author}/{repo}/tags"
         tag_b = utils.load_json_from_url(url=tags_url)[0]["name"]
     logger.info(f"Comparing {tag_a} with {tag_b}:")

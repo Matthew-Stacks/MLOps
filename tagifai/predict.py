@@ -74,7 +74,7 @@ def predict(texts: List, artifacts: Dict, device: torch.device = torch.device("c
     _, y_prob = trainer.predict_step(dataloader)
     y_pred = [np.where(prob >= float(params.threshold), 1, 0) for prob in y_prob]
     tags = label_encoder.decode(y_pred)
-    predictions = [
+    return [
         {
             "input_text": texts[i],
             "preprocessed_text": preprocessed_texts[i],
@@ -82,5 +82,3 @@ def predict(texts: List, artifacts: Dict, device: torch.device = torch.device("c
         }
         for i in range(len(tags))
     ]
-
-    return predictions

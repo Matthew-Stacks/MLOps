@@ -37,10 +37,7 @@ def filter_items(items: List, include: List = [], exclude: List = []) -> List:
     ```
 
     """
-    # Filter
-    filtered = [item for item in items if item in include and item not in exclude]
-
-    return filtered
+    return [item for item in items if item in include and item not in exclude]
 
 
 def prepare(
@@ -409,10 +406,7 @@ class MultiClassLabelEncoder(LabelEncoder):
         Returns:
             List of original labels for each output.
         """
-        classes = []
-        for i, item in enumerate(y):
-            classes.append(self.index_to_class[item])
-        return classes
+        return [self.index_to_class[item] for item in y]
 
 
 class MultiLabelLabelEncoder(LabelEncoder):
@@ -461,7 +455,7 @@ class MultiLabelLabelEncoder(LabelEncoder):
             List of original labels for each output.
         """
         classes = []
-        for i, item in enumerate(y):
+        for item in y:
             indices = np.where(np.asarray(item) == 1)[0]
             classes.append([self.index_to_class[index] for index in indices])
         return classes
@@ -563,9 +557,11 @@ class Tokenizer:
         for text in texts:
             if not self.char_level:
                 text = text.split(" ")
-            sequence = []
-            for token in text:
-                sequence.append(self.token_to_index.get(token, self.token_to_index[self.oov_token]))
+            sequence = [
+                self.token_to_index.get(token, self.token_to_index[self.oov_token])
+                for token in text
+            ]
+
             sequences.append(sequence)
         return sequences
 
@@ -580,10 +576,8 @@ class Tokenizer:
         """
         texts = []
         for sequence in sequences:
-            text = []
-            for index in sequence:
-                text.append(self.index_to_token.get(index, self.oov_token))
-            texts.append(self.separator.join([token for token in text]))
+            text = [self.index_to_token.get(index, self.oov_token) for index in sequence]
+            texts.append(self.separator.join(list(text)))
         return texts
 
     def save(self, fp: str):
